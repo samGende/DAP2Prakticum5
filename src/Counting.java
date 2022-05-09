@@ -20,10 +20,13 @@ public class Counting {
         }
         int max = getMax(arr);
         int min = getMin(arr);
+        System.out.println("Die min ist " + min);
+        System.out.println("Die max ist " + max);
+
         int[] count = count(arr, min, max);
-        System.out.println(Arrays.toString(count));
+        System.out.println("Frequencies "+ Arrays.toString(count));
         int[] sort = countingSort(arr);
-        System.out.println(Arrays.toString(arr));
+        System.out.println("sortiert " + Arrays.toString(arr));
 
     }
 
@@ -63,19 +66,17 @@ public class Counting {
     public static int[] countingSort(int[] input){
         int min = getMin(input);
         int[] helper = count(input, min, getMax((input)));
-        for (int i = helper.length-2; i >= 0; i--){
-            helper[i] += helper[i+1];
-        }
-        int[] output = new int[input.length];
-        for(int i = 0; i < input.length; i++){
-            output[helper[input[i] - min] -1] = input[i];
-            helper[input[i] - min] -= 1;
 
+        int inputIndex = 0;
+        for (int i = 0; i < helper.length; i++){
+            while(helper[i] > 0){
+                input[inputIndex] = i + min;
+                helper[i]--;
+                inputIndex++;
+            }
         }
 
-        for(int i = 0; i < input.length; i++){
-            input[i] = output[i];
-        }
+
 
 
         return helper;
